@@ -1,5 +1,8 @@
 ﻿  Source.cpp
-D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\C3\LWZ\Source.cpp(24,23): warning C4018: '<': signed/unsigned mismatch
-D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\C3\LWZ\Source.cpp(60,23): warning C4018: '<': signed/unsigned mismatch
-D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\C3\LWZ\Source.cpp(83,23): warning C4018: '<': signed/unsigned mismatch
-  LWZ.vcxproj -> D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\C3\Debug\LWZ.exe
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(23,23): warning C4018: '<': signed/unsigned mismatch
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(96,23): warning C4018: '<': signed/unsigned mismatch
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(124,15): warning C4244: 'initializing': conversion from 'std::streamoff' to 'int', possible loss of data
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(193,31): warning C4018: '<': signed/unsigned mismatch
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(215,31): warning C4018: '<': signed/unsigned mismatch
+D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\LWZ\Source.cpp(248,27): warning C4018: '<': signed/unsigned mismatch
+  LWZ.vcxproj -> D:\HCMUS\OneDrive - VNU-HCMUS\Documents\HCMUS\Nam 2\CTDL\Code\Challenge 3\Challenge-3-LZW\Debug\LWZ.exe
