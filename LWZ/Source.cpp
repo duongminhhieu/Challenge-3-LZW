@@ -4,10 +4,14 @@
 #include <string>
 #include <fstream>
 #define BITS 12  
+
+
 using namespace std;
-// order=1 in từ điển
-vector<int> encoding(string s1,bool order)
+
+// encode
+vector<int> encoding(string str,bool order)
 {
+    // order=1 - print dictionary mode
     unordered_map<string, int> table;
     for (int i = 0; i <= 255; i++) {
         string ch = "";
@@ -16,19 +20,17 @@ vector<int> encoding(string s1,bool order)
     }
 
     string p = "", c = "";
-    p += s1[0];
+    p += str[0];
     int code = 256;
     vector<int> output_code;
- //   cout << "String\tOutput_Code\tAddition\n";
-    for (int i = 0; i < s1.length(); i++) {
-        if (i != s1.length() - 1)
-            c += s1[i + 1];
+    for (int i = 0; i < str.length(); i++) {
+        if (i != str.length() - 1)
+            c += str[i + 1];
         if (table.find(p + c) != table.end()) {
             p = p + c;
         }
         else {
-//            cout << p << "\t" << table[p] << "\t\t"
- //               << p + c << "\t" << code << endl;
+
             if (order==1){
             cout<<p+c<<"\t"<<code<<endl;
                 }
@@ -40,12 +42,57 @@ vector<int> encoding(string s1,bool order)
         }
         c = "";
     }
-//    cout << p << "\t" << table[p] << endl;
+
     output_code.push_back(table[p]);
     return output_code;
 }
-//Viet so nguyen ra file output
-void output_code1(ofstream& output, unsigned int code)
+
+//decode
+string decoding(vector<int> op,bool order)
+{
+    string str = "";
+
+    unordered_map<int, string> table;
+    for (int i = 0; i <= 255; i++) {
+        string ch = "";
+        ch += char(i);
+        table[i] = ch;
+    }
+
+    int old = op[0], n;
+    string s = table[old];
+    string c = "";
+    c += s[0];
+    str += s;
+    int count = 256;
+
+    for (int i = 0; i < op.size() - 1; i++) {
+        n = op[i + 1];
+        if (table.find(n) == table.end()) {
+            s = table[old];
+            s = s + c;
+        }
+        else {
+            s = table[n];
+        }
+
+        str += s;
+        c = "";
+        c += s[0];
+        table[count] = table[old] + c;
+
+        if (order == 1) {
+            cout << table[count] << ": "<<count << endl;
+        }
+        count++;
+        old = n;
+    }
+
+    return str;
+}
+
+//write binary file
+void output_bit(ofstream& output, unsigned int code)
 {
     static int output_bit_count = 0;
     static unsigned long output_bit_buffer = 0L;
@@ -58,8 +105,10 @@ void output_code1(ofstream& output, unsigned int code)
         output_bit_count -= 8;
     }
 }
-//Nhap so nguyen tu file input
-int input_code(ifstream& input)
+
+
+//read binary file
+int input_bit(ifstream& input)
 {
     unsigned int return_value;
     static int input_bit_count = 0;
@@ -76,48 +125,8 @@ int input_code(ifstream& input)
     input_bit_count -= BITS;
     return(return_value);
 }
-string decoding(vector<int> op,bool order)
-{
-    string str = "";
 
-    unordered_map<int, string> table;
-    for (int i = 0; i <= 255; i++) {
-        string ch = "";
-        ch += char(i);
-        table[i] = ch;
-    }
-    int old = op[0], n;
-    string s = table[old];
-    string c = "";
-    c += s[0];
-  //  cout << s;
-    str += s;
-    int count = 256;
-    for (int i = 0; i < op.size() - 1; i++) {
-        n = op[i + 1];
-        if (table.find(n) == table.end()) {
-            s = table[old];
-            s = s + c;
-        }
-        else {
-            s = table[n];
-        }
-   //     cout << s;
-        str += s;
-
-        c = "";
-        c += s[0];
-        table[count] = table[old] + c;
-
-        if (order == 1) {
-            cout << table[count] << ": "<<count << endl;
-        }
-        count++;
-        old = n;
-    }
-
-    return str;
-}
+//determine the size of a file
 int size(const char* filename) {
     ifstream f(filename, ios::binary);
     f.seekg(0, ifstream::end);
@@ -127,6 +136,7 @@ int size(const char* filename) {
     return size1;
 }
 
+//read text file
 string input_txt(string file){
     ifstream f;
     f.open(file);
@@ -147,6 +157,7 @@ string input_txt(string file){
     return s;
 }
 
+//write text file
 void output_txt(string file,string s){
     ofstream f;
     f.open(file);
@@ -157,6 +168,7 @@ void output_txt(string file,string s){
     f.close();
 
 }
+
 
 int main(int argc,char *argv[])
 {
@@ -192,12 +204,12 @@ int main(int argc,char *argv[])
             cout << "Output Codes: " << endl;
             for (int i = 0; i < output_code.size(); i++) {
             cout << output_code[i] << " ";
-            output_code1(fout, output_code[i]);
+            output_bit(fout, output_code[i]);
 
             }
 
-            output_code1(fout, 1);
-            output_code1(fout, 0);
+            output_bit(fout, 1);
+            output_bit(fout, 0);
             fout.close();
 
             cout << "Input Size: " << 8 * s.length() << " bits" << endl;
@@ -214,11 +226,11 @@ int main(int argc,char *argv[])
             cout << "Output Codes: " << endl;
             for (int i = 0; i < output_code.size(); i++) {
             cout << output_code[i] << " ";
-            output_code1(fout, output_code[i]);
+            output_bit(fout, output_code[i]);
 
             }
-            output_code1(fout, 1);
-            output_code1(fout, 0);
+            output_bit(fout, 1);
+            output_bit(fout, 0);
             fout.close();
 
         }
@@ -236,7 +248,7 @@ int main(int argc,char *argv[])
         ifstream fin(inputPath, ios::binary);
         int n = -1;
         while (n != 1 && !fin.eof()) {
-            n = input_code(fin);
+            n = input_bit(fin);
             input_code1.push_back(n);
         }
         input_code1.pop_back();
@@ -258,10 +270,9 @@ int main(int argc,char *argv[])
             cout << "\nOutput Text: " <<s<<endl;
             cout << "Input Size: " << 8 * size(inputPath) << " bits" << endl;
             cout << "Output Size: " << 8 * s.length() << " bits" << endl;
-//            cout << "Space saved: " << (1 - 1.0 * size(outputPath) / s.length()) * 100 << " %" << endl;
         }
         else {
-            // xuat tu dien
+
             cout << "----Dictionary----" << endl;
             s = decoding(input_code1, 1);
             cout << "------------------" << endl;
@@ -276,21 +287,6 @@ int main(int argc,char *argv[])
         }
 
     }
-    
-/*
-    string s = "WYS*WYGWYS*WYSWYSG";
-    vector<int> output_code = encoding(s);
-
-    ofstream fout("output.lzw", ios::binary);
-    cout << "Output Codes: " << endl;
-    for (int i = 0; i < output_code.size(); i++) {
-        cout << output_code[i] << " ";
-        output_code1(fout, output_code[i]);
-    }
-
-    output_code1(fout, 1);
-    output_code1(fout, 0);
-    fout.close();
-*/
+    return 1;
 
 }
